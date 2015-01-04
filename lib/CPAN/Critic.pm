@@ -1,5 +1,4 @@
-use v5.20;
-use feature qw(postderef);
+use v5.18;
 no warnings qw();
 
 package CPAN::Critic;
@@ -56,7 +55,7 @@ sub _init {
 	
 		}
 		
-	my %namespaces = $result->value->%*;
+	my %namespaces = %{$result->value};
 	my @namespaces = keys %namespaces;
 	
 	$self->{config}{policies} = \@namespaces;
@@ -207,9 +206,9 @@ sub policies {
 	
 	wantarray 
 		? 
-		$self->config->{policies}->@* 
+		@{$self->config->{policies}}
 			: 
-		[ $self->config->{policies}->@* ]
+		[ @{$self->config->{policies}} ]
 		;
 	}
 
